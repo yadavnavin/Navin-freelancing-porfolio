@@ -1,0 +1,15 @@
+---
+import { person } from "../data/site.mjs";
+---
+
+<footer class="site-footer shell">
+  <p>
+    © {new Date().getFullYear()} {person.name}
+    <span class="footer-role"> · Software engineer & builder</span>
+  </p>
+  <div class="footer-links">
+    {person.github && <a href={person.github}>GitHub</a>}
+    {person.linkedin && <a href={person.linkedin}>LinkedIn</a>}
+    <a href="#top">Back to top</a>
+  </div>
+</footer>

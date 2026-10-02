@@ -1,0 +1,95 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { projects, person, contact } from "../../data/site.mjs";
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+const { project } = Astro.props;
+const related = projects.filter((item) => item.slug !== project.slug);
+---
+
+<Layout
+  title={`${project.name} — Professional Experience | ${person.name}`}
+  description={project.summary}
+>
+  <article class="case-study shell">
+    <a href="/#work" class="text-link back-link">
+      Back to selected work
+    </a>
+    <header class="case-header">
+      <h1>{project.name}</h1>
+      <p class="case-status">Professional work · Details anonymized</p>
+      <p class="case-lede">{project.summary}</p>
+      <ul class="tech-list" aria-label="Technologies and areas">
+        {project.technologies.map((technology) => (
+          <li>{technology}</li>
+        ))}
+      </ul>
+    </header>
+    <div class="case-layout">
+      <aside class="case-sidebar">
+        <p>In this overview</p>
+        <nav aria-label="Experience overview sections">
+          <a href="#context">The product</a>
+          <a href="#contribution">My contribution</a>
+          <a href="#challenges">Features & contributions</a>
+          <a href="#takeaway">The takeaway</a>
+        </nav>
+        <p>
+          Employer-owned work. No internal code, customer information, or
+          confidential implementation details are shared.
+        </p>
+      </aside>
+      <div class="case-body">
+        <section id="context">
+          <h2>What the product does</h2>
+          <p>{project.context}</p>
+        </section>
+        <section id="contribution">
+          <h2>What I worked on</h2>
+          <p>{project.contribution}</p>
+        </section>
+        <section id="challenges">
+          <h2>Features & contributions</h2>
+          {project.challenges.map((challenge) => (
+            <div class="challenge">
+              <div>
+                <h3>{challenge.title}</h3>
+                <p>{challenge.text}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+        <section id="takeaway" class="takeaway">
+          <h2>The takeaway</h2>
+          <p>{project.lesson}</p>
+        </section>
+      </div>
+    </div>
+    <div class="case-contact">
+      <h2>Working through a similar problem?</h2>
+      <a
+        class="button button-primary"
+        href={
+          person.email
+            ? `mailto:${person.email}?subject=${encodeURIComponent(contact.subject)}`
+            : "/#contact"
+        }
+      >
+        Let’s discuss it
+      </a>
+    </div>
+    <section class="related-work" aria-labelledby="related-title">
+      <h2 id="related-title">More engineering work</h2>
+      {related.map((item) => (
+        <a href={`/work/${item.slug}/`}>
+          <span>{item.name}</span>
+          <span>Read overview</span>
+        </a>
+      ))}
+    </section>
+  </article>
+</Layout>

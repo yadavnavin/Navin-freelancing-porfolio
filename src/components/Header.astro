@@ -1,0 +1,48 @@
+---
+import { navigation, person } from "../data/site.mjs";
+---
+
+<header class="site-header shell">
+  <a href="/" class="wordmark" aria-label={`${person.name} — home`}>
+    <span class="monogram" aria-hidden="true">
+      n.
+    </span>
+    <span>
+      {person.name}
+      <span class="wordmark-dot">.</span>
+    </span>
+  </a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {navigation.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+    <a href="/#contact" class="nav-contact">
+      Let’s talk
+    </a>
+  </nav>
+  <details class="mobile-menu">
+    <summary>
+      Menu <span aria-hidden="true">+</span>
+    </summary>
+    <nav aria-label="Mobile navigation">
+      {navigation.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+      <a href="/#contact">Let’s talk</a>
+    </nav>
+  </details>
+</header>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>(".mobile-menu");
+  menu?.querySelectorAll("a").forEach((link) =>
+    link.addEventListener("click", () => {
+      menu.open = false;
+    }),
+  );
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu?.open) {
+      menu.open = false;
+      menu.querySelector("summary")?.focus();
+    }
+  });
+</script>
