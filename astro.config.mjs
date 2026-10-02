@@ -1,10 +1,11 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import { siteUrl } from "./src/data/site.mjs";
 
 export default defineConfig({
-  site: siteUrl || undefined,
+  site: "https://navin-portfolio.navyik.com",
   output: "static",
   trailingSlash: "always",
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
